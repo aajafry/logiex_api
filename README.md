@@ -24,6 +24,7 @@ mkdir migrations
 
 ```env
 PORT=3000
+NODE_ENV=(set `production` || `development`)
 JWT_SECRET=flwxyzoiwrhgoxyz2pqjknxyznlbnh
 TOKEN_EXPIRY=8h
 DATABASE_URL=postgres://postgres:1234@localhost:5432/logiex
