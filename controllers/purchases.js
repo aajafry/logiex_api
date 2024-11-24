@@ -136,7 +136,7 @@ export const purchasesController = {
         const [updatedpurchase] = await tx
           .update(purchases)
           .set({
-            total_price: updatedTotalPrice,
+            total_price: sql`${updatedTotalPrice} - ${purchases.adjustment}`,
             updated_at: new Date().toISOString(),
           })
           .where(ilike(purchases.mr_id, mr_id))
