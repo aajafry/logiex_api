@@ -1,0 +1,1 @@
+{"version":3,"file":"inventories.d.ts","sourceRoot":"","sources":["../../src/controllers/inventories.ts"],"names":[],"mappings":"AAaA,OAAO,EAAqB,cAAc,EAAE,MAAM,SAAS,CAAC;AAE5D,eAAO,MAAM,qBAAqB;YA+D1B,cAAc;iBA0Gd,cAAc;oBAwHd,cAAc;kBA2Fd,cAAc;kBAgCd,cAAc;CACrB,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"shipments.d.ts","sourceRoot":"","sources":["../../src/controllers/shipments.ts"],"names":[],"mappings":"AACA,OAAO,EAAqB,cAAc,EAAE,MAAM,SAAS,CAAC;AAiB5D,eAAO,MAAM,mBAAmB;YA0HxB,cAAc;iBAyEd,cAAc;0BAqFd,cAAc;wBAiKd,cAAc;wBA6Bd,cAAc;CACrB,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"vendors.d.ts","sourceRoot":"","sources":["../../src/controllers/vendors.ts"],"names":[],"mappings":"AACA,OAAO,EAAqB,cAAc,EAAE,MAAM,SAAS,CAAC;AAc5D,eAAO,MAAM,iBAAiB;YAiEtB,cAAc;iBA4Bd,cAAc;oBAqCd,cAAc;kBAyFd,cAAc;kBA4Bd,cAAc;CACrB,CAAC"}

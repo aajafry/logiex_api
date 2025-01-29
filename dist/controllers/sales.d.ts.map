@@ -1,0 +1,1 @@
+{"version":3,"file":"sales.d.ts","sourceRoot":"","sources":["../../src/controllers/sales.ts"],"names":[],"mappings":"AACA,OAAO,EAAW,cAAc,EAAY,MAAM,SAAS,CAAC;AA2B5D,eAAO,MAAM,eAAe;YAiKpB,cAAc;iBAyCd,cAAc;sBAiDd,cAAc;oBAmPd,cAAc;oBAsDd,cAAc;CACrB,CAAC"}

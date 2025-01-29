@@ -1,0 +1,8 @@
+{
+  "name": "nodemon",
+  "watch": ["src"],
+  "ext": "ts",
+  "exec": "ts-node --files src/index.ts src/types/index.d.ts",
+  "ignore": ["dist", "node_modules"],
+  "verbose": true
+}

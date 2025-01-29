@@ -1,0 +1,1 @@
+{"version":3,"file":"categories.d.ts","sourceRoot":"","sources":["../../src/controllers/categories.ts"],"names":[],"mappings":"AACA,OAAO,EAAW,cAAc,EAAY,MAAM,SAAS,CAAC;AAU5D,eAAO,MAAM,oBAAoB;YA4CzB,cAAc;iBA6Bd,cAAc;oBAyCd,cAAc;kBAoEd,cAAc;kBA+Bd,cAAc;CACrB,CAAC"}

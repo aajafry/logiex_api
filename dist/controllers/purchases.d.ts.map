@@ -1,0 +1,1 @@
+{"version":3,"file":"purchases.d.ts","sourceRoot":"","sources":["../../src/controllers/purchases.ts"],"names":[],"mappings":"AACA,OAAO,EAAW,cAAc,EAAY,MAAM,SAAS,CAAC;AAoB5D,eAAO,MAAM,mBAAmB;YAsJxB,cAAc;iBA0Cd,cAAc;oBAkDd,cAAc;kBAyPd,cAAc;kBA2Dd,cAAc;CACrB,CAAC"}
