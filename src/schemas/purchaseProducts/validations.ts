@@ -44,40 +44,37 @@ export const insertPurchaseProductSchema = createInsertSchema(
   total_price: true,
 });
 
-export const updatePurchaseProductSchema = createInsertSchema(
-  purchaseProducts,
-  {
-    quantity: z
-      .number({
-        invalid_type_error: "Product quantity must be a Number",
-      })
-      .positive()
-      .optional(),
-    unit_price: z
-      .number({
-        invalid_type_error: "Product unit price must be a Number",
-      })
-      .optional()
-      .refine(
-        (value) => {
-          if (value === undefined || isNaN(value)) return true;
-          return priceValidation(value);
-        },
-        {
-          message:
-            "Unit price must have a maximum of 10 digits in total and 3 digits after the decimal point",
-        }
-      ),
-    discount: z
-      .number({
-        invalid_type_error: "Product discount must be a Number",
-      })
-      .gte(0, { message: "Discount must have a minimum of zero percent" })
-      .lte(100, { message: "Discount must have a maximum of hundred percent" })
-      .optional(),
-  }
-).omit({
-  quantity: true,
-  unit_price: true,
-  discount: true,
+export const updatePurchaseProductSchema = createInsertSchema(purchaseProducts, {
+  quantity: z
+    .number({
+      invalid_type_error: "Product quantity must be a Number",
+    })
+    .positive()
+    .optional(),
+  unit_price: z
+    .number({
+      invalid_type_error: "Product unit price must be a Number",
+    })
+    .optional()
+    .refine(
+      (value) => {
+        if (value === undefined || isNaN(value)) return true;
+        return priceValidation(value);
+      },
+      {
+        message:
+          "Unit price must have a maximum of 10 digits in total and 3 digits after the decimal point",
+      }
+    ),
+  discount: z
+    .number({
+      invalid_type_error: "Product discount must be a Number",
+    })
+    .gte(0, { message: "Discount must have a minimum of zero percent" })
+    .lte(100, { message: "Discount must have a maximum of hundred percent" })
+    .optional(),
+}).omit({
+  mr_id: true,
+  product: true,
+  total_price: true,
 });

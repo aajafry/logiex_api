@@ -6,12 +6,6 @@ const zod_1 = require("zod");
 const priceValidation_1 = require("../../utils/priceValidation");
 const index_1 = require("../index");
 exports.insertSaleProductSchema = (0, drizzle_zod_1.createInsertSchema)(index_1.saleProducts, {
-    inventory: zod_1.z
-        .string({
-        required_error: "Inventory name is required",
-    })
-        .max(80, { message: "Inventory name must not exceed 80 characters" })
-        .nonempty({ message: "Inventory name is required" }),
     product: zod_1.z
         .string({
         required_error: "Product name is required",
@@ -40,9 +34,9 @@ exports.insertSaleProductSchema = (0, drizzle_zod_1.createInsertSchema)(index_1.
         .lte(100, { message: "Discount must have a maximum of hundred percent" })
         .optional(),
 }).omit({
-    inventory: true,
-    discount: true,
     mr_id: true,
+    inventory: true,
+    bill_id: true,
     total_price: true,
 });
 exports.updateSaleProductSchema = (0, drizzle_zod_1.createInsertSchema)(index_1.saleProducts, {
@@ -67,7 +61,9 @@ exports.updateSaleProductSchema = (0, drizzle_zod_1.createInsertSchema)(index_1.
         .lte(100, { message: "Discount must have a maximum of hundred percent" })
         .optional(),
 }).omit({
-    quantity: true,
-    unit_price: true,
-    discount: true,
+    mr_id: true,
+    inventory: true,
+    bill_id: true,
+    product: true,
+    total_price: true,
 });

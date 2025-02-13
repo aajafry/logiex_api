@@ -68,7 +68,7 @@ exports.updatePurchaseProductSchema = (0, drizzle_zod_1.createInsertSchema)(inde
         .lte(100, { message: "Discount must have a maximum of hundred percent" })
         .optional(),
 }).omit({
-    quantity: true,
-    unit_price: true,
-    discount: true,
+    mr_id: true,
+    product: true,
+    total_price: true,
 });

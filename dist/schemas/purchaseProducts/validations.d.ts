@@ -36,19 +36,19 @@ export declare const updatePurchaseProductSchema: z.ZodObject<Omit<{
     total_price: z.ZodString;
     unit_price: z.ZodEffects<z.ZodOptional<z.ZodNumber>, number | undefined, number | undefined>;
     discount: z.ZodOptional<z.ZodNullable<z.ZodOptional<z.ZodNumber>>>;
-}, "quantity" | "unit_price" | "discount">, z.UnknownKeysParam, z.ZodTypeAny, {
-    mr_id: string;
-    product: string;
-    total_price: string;
+}, "mr_id" | "product" | "total_price">, z.UnknownKeysParam, z.ZodTypeAny, {
     id?: string | undefined;
     created_at?: string | null | undefined;
     updated_at?: string | null | undefined;
+    quantity?: number | undefined;
+    unit_price?: number | undefined;
+    discount?: number | null | undefined;
 }, {
-    mr_id: string;
-    product: string;
-    total_price: string;
     id?: string | undefined;
     created_at?: string | null | undefined;
     updated_at?: string | null | undefined;
+    quantity?: number | undefined;
+    unit_price?: number | undefined;
+    discount?: number | null | undefined;
 }>;
 //# sourceMappingURL=validations.d.ts.map

@@ -4,12 +4,12 @@ import { priceValidation } from "../../utils/priceValidation";
 import { saleProducts } from "../index";
 
 export const insertSaleProductSchema = createInsertSchema(saleProducts, {
-  inventory: z
-    .string({
-      required_error: "Inventory name is required",
-    })
-    .max(80, { message: "Inventory name must not exceed 80 characters" })
-    .nonempty({ message: "Inventory name is required" }),
+  // inventory: z
+  //   .string({
+  //     required_error: "Inventory name is required",
+  //   })
+  //   .max(80, { message: "Inventory name must not exceed 80 characters" })
+  //   .nonempty({ message: "Inventory name is required" }),
   product: z
     .string({
       required_error: "Product name is required",
@@ -39,9 +39,9 @@ export const insertSaleProductSchema = createInsertSchema(saleProducts, {
     .lte(100, { message: "Discount must have a maximum of hundred percent" })
     .optional(),
 }).omit({
-  inventory: true,
-  discount: true,
   mr_id: true,
+  inventory: true,
+  bill_id: true,
   total_price: true,
 });
 
@@ -70,7 +70,9 @@ export const updateSaleProductSchema = createInsertSchema(saleProducts, {
     .lte(100, { message: "Discount must have a maximum of hundred percent" })
     .optional(),
 }).omit({
-  quantity: true,
-  unit_price: true,
-  discount: true,
+  mr_id: true,
+  inventory: true,
+  bill_id: true,
+  product: true,
+  total_price: true,
 });

@@ -18,13 +18,6 @@ import {
   findSaleByBillId,
 } from "../services/index";
 
-interface SaleProduct {
-  product: string;
-  quantity: number;
-  unit_price: number;
-  discount: number;
-  total_price: string;
-}
 
 export const salesController = {
   create: (async (req: Request, res: Response) => {

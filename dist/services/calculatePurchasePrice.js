@@ -9,6 +9,6 @@ const calculatePurchasePrice = async (mrId, ctx = connection_1.db) => {
         .select()
         .from(index_1.purchaseProducts)
         .where((0, drizzle_orm_1.ilike)(index_1.purchaseProducts.mr_id, mrId));
-    return products.reduce((total, product) => total + product.total_price, 0);
+    return products.reduce((total, product) => total + Number(product.total_price), 0);
 };
 exports.calculatePurchasePrice = calculatePurchasePrice;

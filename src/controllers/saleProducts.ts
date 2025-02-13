@@ -1,4 +1,5 @@
-import { and, eq, gte, ilike, sql, desc } from "drizzle-orm";
+import { and, desc, eq, gte, ilike, sql } from "drizzle-orm";
+import { Request, RequestHandler, Response } from "express";
 import { z } from "zod";
 import { db } from "../database/connection";
 import {
@@ -8,7 +9,6 @@ import {
   updateSaleProductSchema,
 } from "../schemas/index";
 import { calculateSalePrice } from "../services/index";
-import { Request, Response, RequestHandler } from "express";
 
 export const saleProductsController = {
   retrieveAll: (async (req: Request, res: Response) => {
@@ -73,12 +73,12 @@ export const saleProductsController = {
   }) as RequestHandler,
   updateById: (async (req: Request, res: Response) => {
     try {
-      await updateSaleProductSchema.parseAsync(req.body);
       const { id } = req.params;
-      const { quantity, unit_price, discount } = req.body;
-      const parseQuantity = parseInt(quantity);
-      const parseDiscount = parseFloat(discount);
-      const parseUnitPrice = parseFloat(unit_price);
+      const { quantity, unit_price, discount } =
+        await updateSaleProductSchema.parseAsync(req.body);
+      // const parseQuantity = parseInt(quantity);
+      // const parseDiscount = parseFloat(discount);
+      // const parseUnitPrice = parseFloat(unit_price);
 
       const [existingSaleProduct] = await db
         .select()
@@ -102,8 +102,8 @@ export const saleProductsController = {
         discount: existingSaleProductDiscount,
       } = existingSaleProduct;
 
-      if (parseQuantity && existingSaleProductQuantity < parseQuantity) {
-        const qtyDifference = parseQuantity - existingSaleProductQuantity;
+      if (quantity && existingSaleProductQuantity < quantity) {
+        const qtyDifference = quantity - existingSaleProductQuantity;
 
         const [inventoryQuery] = await db
           .select()
@@ -125,12 +125,13 @@ export const saleProductsController = {
         }
       }
 
-      const productQty = parseQuantity || existingSaleProductQuantity;
-      const unitPrice = parseUnitPrice || existingSaleProductUnitPrice;
-      const discountPrice = parseDiscount || existingSaleProductDiscount;
+      const productQty = quantity || existingSaleProductQuantity;
+      const unitPrice = unit_price || existingSaleProductUnitPrice;
+      const discountPrice = discount || existingSaleProductDiscount;
 
-      const totalPrice =
-        productQty * unitPrice - (productQty * unitPrice * discountPrice) / 100;
+      const totalPrice = Number(
+        (productQty * unitPrice * (1 - discountPrice / 100)).toFixed(3)
+      );
 
       const updatedData = {
         quantity: productQty,

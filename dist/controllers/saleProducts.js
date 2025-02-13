@@ -68,12 +68,8 @@ exports.saleProductsController = {
     }),
     updateById: (async (req, res) => {
         try {
-            await index_1.updateSaleProductSchema.parseAsync(req.body);
             const { id } = req.params;
-            const { quantity, unit_price, discount } = req.body;
-            const parseQuantity = parseInt(quantity);
-            const parseDiscount = parseFloat(discount);
-            const parseUnitPrice = parseFloat(unit_price);
+            const { quantity, unit_price, discount } = await index_1.updateSaleProductSchema.parseAsync(req.body);
             const [existingSaleProduct] = await connection_1.db
                 .select()
                 .from(index_1.saleProducts)
@@ -85,8 +81,8 @@ exports.saleProductsController = {
                 });
             }
             const { bill_id: existingSaleProductBillId, mr_id: existingSaleProductMrId, product: existingSaleProductName, quantity: existingSaleProductQuantity, inventory: existingSaleProductInventory, unit_price: existingSaleProductUnitPrice, discount: existingSaleProductDiscount, } = existingSaleProduct;
-            if (parseQuantity && existingSaleProductQuantity < parseQuantity) {
-                const qtyDifference = parseQuantity - existingSaleProductQuantity;
+            if (quantity && existingSaleProductQuantity < quantity) {
+                const qtyDifference = quantity - existingSaleProductQuantity;
                 const [inventoryQuery] = await connection_1.db
                     .select()
                     .from(index_1.inventoryProducts)
@@ -98,10 +94,10 @@ exports.saleProductsController = {
                     });
                 }
             }
-            const productQty = parseQuantity || existingSaleProductQuantity;
-            const unitPrice = parseUnitPrice || existingSaleProductUnitPrice;
-            const discountPrice = parseDiscount || existingSaleProductDiscount;
-            const totalPrice = productQty * unitPrice - (productQty * unitPrice * discountPrice) / 100;
+            const productQty = quantity || existingSaleProductQuantity;
+            const unitPrice = unit_price || existingSaleProductUnitPrice;
+            const discountPrice = discount || existingSaleProductDiscount;
+            const totalPrice = Number((productQty * unitPrice * (1 - discountPrice / 100)).toFixed(3));
             const updatedData = {
                 quantity: productQty,
                 unit_price: unitPrice,

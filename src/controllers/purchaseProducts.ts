@@ -1,5 +1,5 @@
 import { and, desc, eq, ilike } from "drizzle-orm";
-import { Request, Response, RequestHandler } from "express";
+import { Request, RequestHandler, Response } from "express";
 import { z } from "zod";
 import { db } from "../database/connection";
 import {
@@ -79,11 +79,8 @@ export const purchaseProductsController = {
   updateById: (async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      await updatePurchaseProductSchema.parseAsync(req.body);
-      const { quantity, discount, unit_price } = req.body;
-      const parseQuantity = parseInt(quantity);
-      const parseDiscount = parseFloat(discount);
-      const parseUnitPrice = parseFloat(unit_price);
+      const { quantity, discount, unit_price } =
+        await updatePurchaseProductSchema.parseAsync(req.body);
 
       const [existingPurchaseProduct] = await db
         .select()
@@ -105,12 +102,14 @@ export const purchaseProductsController = {
         discount: existingPurchaseProductDiscount,
       } = existingPurchaseProduct;
 
-      const productQty = parseQuantity || existingPurchaseProductQuantity;
-      const unitPrice = parseUnitPrice || existingPurchaseProductUnitPrice;
-      const discountPrice = parseDiscount || existingPurchaseProductDiscount;
+      const productQty = quantity || existingPurchaseProductQuantity;
+      const unitPrice = unit_price || existingPurchaseProductUnitPrice;
+      const discountPrice = discount || existingPurchaseProductDiscount;
 
-      const totalPrice =
-        productQty * unitPrice - (productQty * unitPrice * discountPrice) / 100;
+      const totalPrice = Number(
+        (productQty * unitPrice * (1 - discountPrice / 100)).toFixed(3)
+      );
+
 
       let updatedPurchase;
       await db.transaction(async (tx: any) => {
@@ -152,18 +151,24 @@ export const purchaseProductsController = {
           })
           .where(ilike(purchases.mr_id, existingPurchaseProductMrId));
       });
+      
       res.status(200).json({
         message: `The purchase product ID "${id}" has been updated successfully.`,
         purchase: updatedPurchase,
       });
     } catch (error) {
-      console.error("An error occurred while updating purchase product", error);
+      console.error(
+        "An error occurred while updating purchase product:",
+        error
+      );
+
       if (error instanceof z.ZodError) {
         return res.status(400).json({
           message: "Validation error",
           errors: error.errors.map((e) => e.message),
         });
       }
+
       if (error instanceof Error) {
         res.status(500).json({
           message:

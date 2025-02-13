@@ -65,11 +65,7 @@ exports.purchaseProductsController = {
     updateById: (async (req, res) => {
         try {
             const { id } = req.params;
-            await index_1.updatePurchaseProductSchema.parseAsync(req.body);
-            const { quantity, discount, unit_price } = req.body;
-            const parseQuantity = parseInt(quantity);
-            const parseDiscount = parseFloat(discount);
-            const parseUnitPrice = parseFloat(unit_price);
+            const { quantity, discount, unit_price } = await index_1.updatePurchaseProductSchema.parseAsync(req.body);
             const [existingPurchaseProduct] = await connection_1.db
                 .select()
                 .from(index_1.purchaseProducts)
@@ -81,10 +77,10 @@ exports.purchaseProductsController = {
                 });
             }
             const { mr_id: existingPurchaseProductMrId, product: existingPurchaseProductName, quantity: existingPurchaseProductQuantity, unit_price: existingPurchaseProductUnitPrice, discount: existingPurchaseProductDiscount, } = existingPurchaseProduct;
-            const productQty = parseQuantity || existingPurchaseProductQuantity;
-            const unitPrice = parseUnitPrice || existingPurchaseProductUnitPrice;
-            const discountPrice = parseDiscount || existingPurchaseProductDiscount;
-            const totalPrice = productQty * unitPrice - (productQty * unitPrice * discountPrice) / 100;
+            const productQty = quantity || existingPurchaseProductQuantity;
+            const unitPrice = unit_price || existingPurchaseProductUnitPrice;
+            const discountPrice = discount || existingPurchaseProductDiscount;
+            const totalPrice = Number((productQty * unitPrice * (1 - discountPrice / 100)).toFixed(3));
             let updatedPurchase;
             await connection_1.db.transaction(async (tx) => {
                 [updatedPurchase] = await tx
@@ -120,7 +116,7 @@ exports.purchaseProductsController = {
             });
         }
         catch (error) {
-            console.error("An error occurred while updating purchase product", error);
+            console.error("An error occurred while updating purchase product:", error);
             if (error instanceof zod_1.z.ZodError) {
                 return res.status(400).json({
                     message: "Validation error",

@@ -10,7 +10,7 @@ export const calculatePurchasePrice = async (mrId: string, ctx = db) => {
 
   return products.reduce(
     (total: number, product: { total_price: number }) =>
-      total + product.total_price,
+      total + Number(product.total_price),
     0
   );
 };
